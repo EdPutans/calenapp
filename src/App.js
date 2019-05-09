@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import './App.scss';
 import { Input, Select, Card } from '@material-ui/core';
+import { isUserWhitespacable } from '@babel/types';
+
+
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+const postAPerson = (name, day, month) => fetch('http://localhost:3010/users',{
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    user:{
+      name, day, month
+    }
+  })
+}).then(response => response.json())
+
+
+const fetchPeople = () => fetch('http://localhost:3010/users').then(response => response.json())
+
 const App = () => {
 
   const [day, setDay] = useState('')
   const [month, setMonth] = useState(null)
   const [name, setName] = useState('')
-
+  const [people, setPeople] = useState([])
   useEffect(() => {
     return () => {
       if(day>31){
@@ -14,6 +34,12 @@ const App = () => {
       }
     };
   }, [day])
+
+useEffect(() => {
+    fetchPeople().then(r=>
+    setPeople(r))
+},[])
+
   return (
     <div className='Calenapp'>
       <div className="Calenapp_column">
@@ -38,26 +64,20 @@ const App = () => {
             select month yo
           </option>
             {months.map(o =>
-              <option value={o.toLowerCase()}>{o}</option>
+              <option value={o}>{o}</option>
             )}
           </Select>
         </div>
       </div>
       <div className="Calenapp_column">
-        <Card className="Calenapp_card">
-          name1
-          </Card>
-          <Card className="Calenapp_card">
-          name2
-          </Card>
-          <Card className="Calenapp_card">
-          name3
-          </Card>
+      {people.map(p=>  p.day && p.name && p.month && <Card className="Calenapp_card">
+          {p.name} - {p.day} of {p.month}
+            </Card>
+          )}
       </div>
+      <button onClick={()=>postAPerson(name, day, month)}>YEET</button>
     </div>
   );
 }
 
 export default App;
-
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
