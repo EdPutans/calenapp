@@ -42,10 +42,6 @@ const App = () => {
             )}
           </Select>
         </div>
-        <p>{day}</p><p>{month}</p><p>{name}</p>
-
-
-
       </div>
       <div className="Calenapp_column">
         <Card className="Calenapp_card">
