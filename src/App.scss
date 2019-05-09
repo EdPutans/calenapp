@@ -1,0 +1,31 @@
+
+body{
+  height: 100vh;
+}
+.Calenapp{
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: #F8BBD0;
+  &_column{
+    margin: 30px 20px;
+    flex: 1;
+    width: 400px;
+    overflow-y: scroll;
+    &:first-child{
+      border-right: 1px solid white;
+    }
+  }
+  &_day{
+    margin: 20px;
+    width: 150px;
+  }
+  &_month{
+    width: 150px !important;
+  }
+  &_card{
+    padding: 10px;
+    margin: 4px;
+  }
+}
